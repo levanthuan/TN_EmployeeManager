@@ -1,0 +1,78 @@
+<?php
+Route::get('/', 'LoginController@getLogin')->name('login');
+Route::post('/', 'LoginController@postLogin');
+Route::get('logout', 'LoginController@getLogout')->name('logout');
+
+Route::group(['prefix' => 'user', 'middleware' => 'userLogin'], function(){
+	Route::get('home', 'UserController@index')->name('user_home');
+    Route::get('list_user/{limit}', 'UserController@getListUser')->name('user_list_user');
+    Route::get('salary', 'UserController@getSalary')->name('user_salary');
+    Route::get('list_birthday','UserController@getListBirthday')->name('user_list_birthday');
+	Route::get('list_team', 'TeamController@getListTeam')->name('user_list_team');
+    Route::get('team_info/{id}', 'TeamController@getTeamInfo')->name('user_team_info');
+    Route::post('team_info/{id}', 'TeamController@postEditTeam')->name('edit_team');
+    Route::get('list_division', 'DivisionController@getListDivision')->name('user_list_division');
+    Route::get('division_info/{id}', 'DivisionController@getDivisionInfo')->name('user_division_info');
+    Route::post('division_info/{id}', 'DivisionController@postEditDivision')->name('edit_division');
+    Route::get('add_members/{id}', 'TeamController@getAddMembers')->name('user_add_members');
+    Route::post('add_members/{id}', 'TeamController@postAddMembers')->name('user_add_members');
+	Route::get('timesheet', 'ProfileController@getTimeSheet')->name('user_timesheet');
+	Route::get('time_off_request', 'ProfileController@getCreateTimeOffRequest')->name('user_time_off_request');
+    Route::post('time_off_request', 'ProfileController@postCreateTimeOffRequest')->name('user_time_off_request');
+	Route::get('profile/{id}', 'ProfileController@index')->name('user_profile');
+    Route::get('update_pass', 'ProfileController@updatePass')->name('update_pass');
+    Route::post('change_pass', 'ProfileController@postChangePass')->name('change_pass');    
+    Route::post('edit_profile/{id}', 'ProfileController@postEditUser')->name('user_edit_user');
+    Route::post('profile/{id}', 'ProfileController@postChangeAvatar')->name('user_change_avatar');
+    Route::get('show_time_off_request/{id}', 'ProfileController@showTimeOffRequest')->name('show_time_off_request');
+    Route::get('approve_time_off_request/{id}', 'ProfileController@approveTimeOffRequest')->name('approve_time_off_request');
+    Route::get('notifications', 'NotificationController@getNotificationsUser')->name('user_notifications_user');
+    Route::get('notification/{id}', 'NotificationController@getNotification')->name('user_notification');
+    Route::post('search', 'UserController@postSearch')->name('user_search');
+    Route::get('remove_members/{userId}', 'UserController@putRemove')->name('user_remove_members');
+    Route::get('search_add_mem', 'UserController@searchAdd')->name('search_add');
+    Route::get('add_mem/{userId}', 'UserController@addMember')->name('add_member');
+});
+
+Route::group(['prefix' => 'admin', 'middleware' => 'adminLogin'], function(){
+    Route::get('home', 'AdminController@index')->name('admin_home');
+    Route::get('list_time_off_request', 'AdminController@getTimeOffRequests')->name('admin_list_time_off_request');
+    Route::get('time_off_request/{id}', 'AdminController@showTimeOffRequest')->name('admin_show_time_off_request');
+    Route::get('notifications', 'NotificationController@getNotifications')->name('admin_notifications');
+    Route::get('notification/{id}', 'NotificationController@getNotification')->name('admin_notification');
+    Route::get('create_notification', 'NotificationController@getCreateNotification')->name('admin_create_notification');
+    Route::post('create_notification', 'NotificationController@postCreateNotification');
+    Route::get('list_user/{limit}', 'UserController@getListUser')->name('admin_list_user');
+    Route::get('list_team', 'TeamController@getListTeam')->name('admin_list_team');
+    Route::get('list_division', 'DivisionController@getListDivision')->name('admin_list_division');
+    Route::get('profile/{id}', 'ProfileController@index')->name('profile');
+    Route::post('profile/{id}', 'ProfileController@postUpdateProfile')->name('post_profile');
+    Route::post('change_avatar/{id}', 'ProfileController@postChangeAvatar')->name('admin_change_avatar');
+    Route::get('add_new_field', 'ProfileController@getAddNewField')->name('add_new_field');
+    Route::post('add_new_field', 'ProfileController@postAddNewField')->name('add_new_field');
+    Route::get('delete_field/{id}', 'ProfileController@getDeleteField')->name('delete_field');
+    Route::get('team_info/{id}', 'TeamController@getTeamInfo')->name('team_info');
+    Route::get('update_team_info/{id}', 'TeamController@getUpdateTeamInfo')->name('update_team_info');
+    Route::post('update_team_info/{id}', 'TeamController@postUpdateTeamInfo')->name('update_team_info');
+    Route::get('team_division/{id}', 'DivisionController@getTeamDivisionInfo')->name('team_division');
+    Route::get('update_division_info/{id}', 'DivisionController@getUpdateDivisionInfo')->name('update_division_info');
+    Route::post('update_division_info/{id}', 'DivisionController@postUpdateDivisionInfo')->name('update_division_info');
+    Route::get('new_team', 'TeamController@getNewTeam')->name('new_team');
+    Route::post('new_team', 'TeamController@postNewTeam')->name('new_team');
+    Route::get('delete_team/{id}', 'TeamController@getDeleteTeam')->name('delete_team');
+    Route::get('new_user', 'UserController@getNewUser')->name('new_user');
+    Route::post('new_user', 'UserController@postNewUser')->name('new_user');
+    Route::get('delete_user/{id}', 'UserController@getDeleteUser')->name('delete_user');
+    Route::get('new_division', 'DivisionController@getNewDivision')->name('new_division');
+    Route::post('new_division', 'DivisionController@postNewDivision')->name('new_division');
+    Route::get('delete_division/{id}', 'DivisionController@getDeleteDivision')->name('delete_division');
+    Route::post('/search', 'AdminController@postSearch')->name('search');
+    Route::get('list_birthday','AdminController@getListBirthday')->name('admin_list_birthday');
+    Route::get('list_review_salary','UserController@getListReviewSalary')->name('admin_list_review_salary');
+    Route::get('table_salary','AdminController@showTableSalary')->name('admin_show_table_salary');
+
+    Route::get('add_members/{id}', 'TeamController@getAdAddMem')->name('admin_add_members');
+    Route::get('search_add_mem', 'AdminController@searchAdd')->name('search_add');
+    Route::get('add_mem/{userId}', 'AdminController@addMember')->name('add_member');
+    Route::get('remove_members/{userId}', 'AdminController@putRemove')->name('admin_remove_members');
+});
